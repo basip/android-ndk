@@ -1,4 +1,4 @@
-FROM ubuntu:18.10
+FROM ubuntu:18.04
 LABEL maintainer="dmpanch"
 
 ENV ANDROID_NDK_HOME /opt/android-ndk
@@ -12,7 +12,6 @@ RUN apt-get install -y locales
 RUN locale-gen en_US.UTF-8
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
-
 # ------------------------------------------------------
 # --- Install required tools
 
@@ -25,7 +24,7 @@ RUN apt-get install -qqy --no-install-recommends \
       libc6-i386 \
       lib32stdc++6 \
       lib32gcc1 \
-      lib32ncurses5-dev \
+      lib32ncurses5 \
       lib32z1 \
       unzip \
       zip \
