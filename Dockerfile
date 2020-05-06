@@ -33,6 +33,8 @@ RUN apt-get install -qqy --no-install-recommends \
       software-properties-common \
       python \
       build-essential \
+      p7zip-full \
+      p7zip-rar \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
