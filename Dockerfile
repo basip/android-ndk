@@ -17,8 +17,8 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 RUN apt-get install -qqy --no-install-recommends \
       apt-utils \
-      bzip2 \
-      curl \
+      build-essential \
+	  bzip2 \
       git-core \
       html2text \
       libc6-i386 \
@@ -26,18 +26,43 @@ RUN apt-get install -qqy --no-install-recommends \
       lib32gcc1 \
       lib32ncurses5 \
       lib32z1 \
+	  libssl-dev \
       unzip \
       zip \
       wget \
       sudo \
       software-properties-common \
       python \
-      build-essential \
       p7zip-full \
       p7zip-rar \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# ------------------------------------------------------
+# --- Make SFTP with CURL
 
+# Download and install libssh2
+RUN cd /tmp && \
+    wget https://www.libssh2.org/download/libssh2-1.10.0.tar.gz && \
+# uncompress
+	tar zxvf libssh2-1.10.0.tar.gz && \
+	cd libssh2-1.10.0 && \
+# configure
+	./configure && \
+	make && \
+	make install
+
+# Configure and install CURL
+RUN cd /tmp && \
+	wget https://curl.haxx.se/download/curl-7.73.0.tar.gz && \
+# uncompress
+	tar zxvf curl-7.73.0.tar.gz && \
+	cd curl-7.73.0 && \
+# configure
+	./configure --with-libssh2=/usr/local && \
+	make && \
+	make install && \
+	sudo ldconfig && \
+    export PATH=/usr/local/bin:$PATH
 # ------------------------------------------------------
 # --- Android NDK
 
